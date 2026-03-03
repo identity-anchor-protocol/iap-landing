@@ -10,6 +10,12 @@
       content="Identity Anchor Protocol (IAP): cryptographic continuity for AI agents, with signed certificates and offline verification."
     />
     <title>IAP Registry | Identity Anchor Protocol</title>
+    <!-- IAP favicon -->
+    <link rel="icon" href="images/iap-favicon-ultra.svg" type="image/svg+xml">
+    <link rel="icon" href="images/iap-favicon-ultra-32.png" type="image/png" sizes="32x32">
+    <link rel="icon" href="images/iap-favicon-ultra-16.png" type="image/png" sizes="16x16">
+    <link rel="apple-touch-icon" href="images/apple-touch-icon.png" sizes="180x180">
+    <meta name="theme-color" content="#1e3a8a">
     <meta name="registry-origin" content="https://registry.ia-protocol.com" />
     <link rel="stylesheet" href="styles.bluecode.css" />
   </head>
@@ -313,6 +319,75 @@ iap-agent verify ./continuity_record.json --registry-base "https://registry.ia-p
             <a class="btn btn-secondary" href="iap-user-manual.html">Open the beta user manual</a>
             <a class="btn btn-secondary" href="docs/model-randomness-vs-state-mutation.html">Read technical notes</a>
           </div>
+        </div>
+      </section>
+
+      <!-- AGENT INTEGRATION -->
+      <section id="agent-integration" class="section section-alt">
+        <div class="container">
+          <span class="eyebrow">Autonomous agent integration</span>
+          <h2>IAP can be executed from within an agent session</h2>
+
+          <p>
+            The full IAP flow — init, append, anchor, continuity, verify — runs entirely through the CLI.
+            An agent with shell access can execute the issuance and verification steps directly,
+            once credentials have been provisioned.
+            The Atlas session is a documented example of this executed end-to-end.
+          </p>
+
+          <p>
+            The pattern: the agent generates and holds its own Ed25519 keypair locally,
+            appends its defining files to AMCS, and requests certificates from the registry.
+            The private key never leaves the agent's local environment.
+            Verification is offline and does not require contacting the registry at runtime.
+          </p>
+
+          <div class="grid" style="margin-top:1rem;">
+            <div class="card">
+              <h3 style="margin-top:0;">What to track</h3>
+              <p style="margin:0.5rem 0 0;">
+                AMCS tracks any files that constitute the agent's identity and state — typically:
+              </p>
+              <ul style="margin:0.5rem 0 0; padding-left:1.1rem;">
+                <li>Identity and persona definition files</li>
+                <li>Persistent memory files</li>
+                <li>Tool configuration or instruction files</li>
+              </ul>
+              <p class="note" style="margin-top:0.75rem;">
+                The registry receives only the <code>memory_root</code> hash — not the file contents.
+                Raw state stays local.
+              </p>
+            </div>
+
+            <div class="card">
+              <h3 style="margin-top:0;">Continuity on a schedule</h3>
+              <p style="margin:0.5rem 0 0;">
+                Once anchored, an agent can request continuity certificates periodically as its tracked state evolves.
+                Each certificate certifies a <code>memory_root</code> at a specific <code>sequence</code>,
+                building an append-only chain verifiable offline.
+              </p>
+              <p class="note" style="margin-top:0.75rem;">
+                A continuity certificate is the cryptographic answer to:
+                <em>"Is the current instance the same identity that acted at sequence N?"</em>
+              </p>
+            </div>
+          </div>
+
+          <div class="callout" style="margin-top:1.5rem;">
+            <div class="callout-title">Key custody</div>
+            <p style="margin:0.35rem 0 0;">
+              The Ed25519 private key is generated locally and never transmitted to the registry.
+              If the key is lost, identity continuity cannot be re-established from the same <code>agent_id</code>.
+              Back up <code>~/.iap_agent/identity/</code> (global) or <code>.iap/identity/</code>
+              (project-local, when initialized with <code>--project-local</code>).
+            </p>
+          </div>
+
+          <p style="margin-top:1.25rem;">
+            The commands are identical to the <a href="#quickstart">quickstart above</a>.
+            The Atlas session — the first documented case of autonomous IAP self-registration — is available in full:
+            <a href="atlas-transcript.html">read the transcript</a>.
+          </p>
         </div>
       </section>
 
