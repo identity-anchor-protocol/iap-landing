@@ -59,6 +59,7 @@
             <li>Append local files into AMCS to compute a <code>memory_root</code> and <code>sequence</code>.</li>
             <li>Issue an identity anchor for a new agent.</li>
             <li>Issue continuity certificates for later state changes.</li>
+            <li>Issue a lineage certificate when you intentionally create a new child agent.</li>
             <li>Verify issued certificates offline.</li>
           </ul>
 
@@ -181,7 +182,38 @@ iap-agent continuity cert --registry-base "https://registry.ia-protocol.com" --r
 
       <section class="section section-alt">
         <div class="container prose">
-          <h2>Step 8 — Verify the certificate offline</h2>
+          <h2>Step 8 — Issue a lineage certificate when needed</h2>
+          <p>
+            Issue a lineage certificate when you are creating a new child agent that should be verifiably linked to an
+            already trusted parent agent.
+          </p>
+          <p>
+            Use lineage when you intentionally create a separate child agent instead of continuing the same
+            <code>agent_id</code>. Do not use lineage for ordinary updates to the same agent. For that, keep the same
+            identity and issue a continuity certificate instead.
+          </p>
+          <p>
+            In the current implementation, lineage certifies a parent / child relationship between two different agent
+            identities. The child identity must be different from the parent identity.
+          </p>
+
+          <p>Example request:</p>
+          <pre class="code-block"><code>iap-agent lineage request --registry-base "https://registry.ia-protocol.com" --identity-file ./.iap/identity/ed25519.json --parent-agent-id "&lt;PARENT_AGENT_ID&gt;" --fork-event-hash "&lt;64_LOWERCASE_HEX&gt;" --json</code></pre>
+
+          <p>Wait for certification and fetch the certificate:</p>
+          <pre class="code-block"><code>iap-agent lineage wait --registry-base "https://registry.ia-protocol.com" --request-id &lt;request_id&gt; --timeout-seconds 600 --poll-seconds 5 --json
+iap-agent lineage cert --registry-base "https://registry.ia-protocol.com" --request-id &lt;request_id&gt; --output-file ./lineage_record.json --json</code></pre>
+
+          <p>
+            You may provide <code>--parent-agent-id</code>, or <code>--fork-event-hash</code>, or both, depending on
+            the parent relationship you want to certify.
+          </p>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="container prose">
+          <h2>Step 9 — Verify the certificate offline</h2>
           <p>
             Offline verification means the verifier has the certificate payload and a trusted registry public key. For
             stricter continuity checks, also provide the saved identity anchor.
@@ -194,7 +226,7 @@ iap-agent verify ./continuity_record.json --profile strict --registry-public-key
         </div>
       </section>
 
-      <section class="section">
+      <section class="section section-alt">
         <div class="container prose">
           <h2>Common fixes</h2>
           <ul>
