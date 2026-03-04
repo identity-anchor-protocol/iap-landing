@@ -149,6 +149,32 @@ h2 {
   margin-top: 1.25rem;
 }
 
+/* Atlas hero callout */
+
+.atlas-callout {
+  margin-top: 1.2rem;
+  padding: 1rem 1.2rem;
+  border-left: 3px solid var(--primary);
+  background: rgba(0,0,0,0.03);
+  border-radius: 6px;
+}
+
+.atlas-label {
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 0.35rem;
+}
+
+.atlas-callout blockquote {
+  margin: 0;
+  font-size: 1.05rem;
+  line-height: 1.45;
+  font-style: italic;
+}
+
 .btn {
   display: inline-block;
   text-decoration: none;
