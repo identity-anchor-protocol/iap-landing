@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Offline Isnad demo showing local action logging, signed action receipts, and tamper detection for the current IAP beta."
+    />
+    <title>IAP Docs | 5-Minute Isnad Demo</title>
+    <!-- IAP favicon -->
+    <link rel="icon" href="images/iap-favicon-ultra.svg" type="image/svg+xml">
+    <link rel="icon" href="images/iap-favicon-ultra-32.png" type="image/png" sizes="32x32">
+    <link rel="apple-touch-icon" href="images/apple-touch-icon.png" sizes="180x180">
+    <link rel="stylesheet" href="../styles.bluecode.css" />
+  </head>
+  <body>
+    <main class="section">
+      <div class="container prose">
+        <h1>5-Minute Isnad Demo</h1>
+        <p>
+          This is the current offline action-provenance demo for the IAP beta. It shows local
+          shell, file, and HTTP actions being recorded, signed action receipts being minted,
+          and verification failing after deliberate receipt tampering.
+        </p>
+        <ol>
+          <li>Start from a clean virtual environment.</li>
+          <li>Install the current <code>iap-agent</code> package.</li>
+          <li>Run the local Isnad demo script.</li>
+          <li>Confirm the local action chain verifies.</li>
+          <li>Confirm signed action receipts verify.</li>
+          <li>Observe verification failure after deliberate tampering.</li>
+        </ol>
+        <pre class="code-block"><code>python3 -m venv .venv
+source .venv/bin/activate
+python -m pip install -U pip
+python -m pip install -U iap-agent
+python /path/to/iap-sdk/examples/isnad-demo/demo.py</code></pre>
+        <p>Expected terminal result includes:</p>
+        <pre class="code-block"><code>verify_before_ok=True
+verify_after_receipts_ok=True
+verify_after_tamper_ok=False</code></pre>
+        <p>
+          The first check confirms the local action chain. The second confirms that local
+          action receipts also verify. The third fails after deliberate receipt tampering,
+          showing the current Isnad beta path is tamper-evident at the action level.
+        </p>
+        <p>
+          This is an operator-oriented beta demo, not the primary public onboarding flow. For
+          normal certificate issuance, use the quickstart and user manual.
+        </p>
+        <p><a href="../index.html">Back to landing page</a></p>
+      </div>
+    </main>
+  </body>
+</html>

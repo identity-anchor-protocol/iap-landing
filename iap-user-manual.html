@@ -39,6 +39,7 @@
             </p>
             <div class="hero-actions">
               <a class="btn btn-secondary" href="docs/beta-onboarding.html">Onboarding (beta access)</a>
+              <a class="btn btn-secondary" href="docs/run-isnad-demo.html">5-minute Isnad demo</a>
               <a class="btn btn-secondary" href="index.html#docs">Browse docs</a>
             </div>
           </div>
@@ -71,6 +72,13 @@
             <p>
               <strong>Mental model:</strong> the identity anchor is the root certificate for a new agent. Continuity
               certificates are later checkpoints after important changes in agent files for new state roots under the same <code>agent_id</code>.
+            </p>
+          </div>
+          <div class="callout">
+            <p>
+              <strong>New in beta:</strong> the SDK now also exposes early Isnad / action provenance commands for
+              shell, file, and HTTP actions. For a guided local walkthrough, use the
+              <a href="docs/run-isnad-demo.html">offline Isnad demo</a>.
             </p>
           </div>
         </div>
@@ -245,6 +253,22 @@ iap-agent verify ./continuity_record.json --profile strict --registry-public-key
             <a class="btn primary" href="docs/beta-onboarding.html">Onboarding (beta access)</a>
             <a class="btn btn-secondary" href="index.html">Back to the landing page</a>
           </div>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="container prose">
+          <h2>Optional: inspect action provenance locally</h2>
+          <p>
+            The current beta also includes an early action-provenance surface for shell, file, and HTTP actions.
+            This is separate from certificate issuance and is mainly useful for operator-side inspection and demos.
+          </p>
+          <pre class="code-block"><code>iap-agent actions status --json
+iap-agent actions verify --json</code></pre>
+          <p>
+            If you want a guided local example with signed action receipts and deliberate tamper detection, use the
+            <a href="docs/run-isnad-demo.html">5-minute Isnad demo</a>.
+          </p>
         </div>
       </section>
     </main>
